@@ -3,26 +3,30 @@ import { DatabaseServer } from "@spt/servers/DatabaseServer";
 import bossMeanJson from "../../config/data/aiming_bossmean.json"
 import sprayPrayMeanJson from "../../config/data/aiming_spraypraymean.json"
 import insaneMean from "../../config/data/aiming_insane.json"
-import settingsJSON from "../../config/general.json"
-import { valueFromProximity } from "src/helpers/kmean";
+import { globaldefaultdifficulty, difficultyLevels } from "../../config/difficulty.json"
+import { valueFromProximity } from "../helpers/kmean";
 
 
 export default (container: DependencyContainer) => {
     const databaseServer = container.resolve<DatabaseServer>("DatabaseServer");
     const tables = databaseServer.getTables();
 
-    const globalDifficulty: number = settingsJSON["globaldefaultdifficulty"];
-    // console.log(settingsJSON.perbotoverride);
+    const globalDifficulty: number = globaldefaultdifficulty
+
     Object.keys(tables.bots.types).forEach((botkey) => {
-        let botSetting = settingsJSON.perbotoverride.find((override) =>
+        let botSetting = difficultyLevels.find((override) =>
             override.brains.find((x) => x === botkey)
         );
-        const easyMul = botSetting?.perdiffcultymultipier?.easy || 1.0;
-        const normalMul = botSetting?.perdiffcultymultipier?.normal || 1.0;
-        const hardMul = botSetting?.perdiffcultymultipier?.hard || 1.0;
+        if (!botSetting) {
+            // console.log(`No bot setting found for ${botkey}`);
+            return
+        }
+        const easyMul = botSetting.perdiffcultymultipier.easy || 1.0;
+        const normalMul = botSetting.perdiffcultymultipier.normal || 1.0;
+        const hardMul = botSetting.perdiffcultymultipier.hard || 1.0;
         const impossibleMul =
-            botSetting?.perdiffcultymultipier?.impossible || 1.0;
-        const difficultySetting = botSetting?.difficulty || globalDifficulty;
+            botSetting.perdiffcultymultipier.impossible || 1.0;
+        const difficultySetting = botSetting.difficulty || globalDifficulty;
 
         Object.keys(sprayPrayMeanJson).forEach((aimingKey) => {
             tables.bots.types[botkey].difficulty.easy.Aiming[aimingKey] =
@@ -61,7 +65,7 @@ export default (container: DependencyContainer) => {
         });
     });
 
-    // Credit to SAIN This appears to make bots alot more conistent across maps.
+    // Credit to SAIN This appears to make bots alot more consistent across maps.
     for (const locationName in tables.locations) {
         const location = tables.locations[locationName].base;
 

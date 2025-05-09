@@ -1,0 +1,21 @@
+{
+  "pmcBrainWeights": {
+    "bossKilla": 5,
+    "bossBully": 5,
+    "bossSanitar": 5,
+    "assault": 5,
+    "pmcUSEC": 10,
+    "pmcBEAR": 10,
+    "arenaFighterEvent": 5
+  },
+  "scavBrainWeights": {
+    "bossKilla": 3,
+    "assault": 10,
+    "cursedAssault": 1
+  },
+  "playerScavBrainWeights": {
+    "bossKilla": 5,
+    "assault": 5,
+    "cursedAssault": 5
+  }
+}

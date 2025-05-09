@@ -1,0 +1,80 @@
+{
+  "globaldefaultdifficulty": 0,
+  "difficultyLevels": [
+    {
+      "name": "easy",
+      "brains": ["assault", "assaultgroup"],
+      "difficulty": 0.2,
+      "perdiffcultymultipier": {
+        "easy": 0.5,
+        "normal": 0.8,
+        "hard": 1,
+        "impossible": 1.25
+      }
+    },
+    {
+      "name": "medium",
+      "brains": [
+        "cursedassault",
+        "usec",
+        "skier",
+        "bear",
+        "pmcbear",
+        "arenafighter",
+        "arenafighterevent",
+        "pmcusec",
+        "pmcbot",
+        "exusec",
+        "bosskilla",
+        "marksman",
+        "followerbully",
+        "followergluharassault",
+        "crazyassaultevent",
+        "followergluharscout",
+        "followerkolontaysecurity",
+        "followerkolontayassault",
+        "followergluharsecurity",
+        "followergluharsnipe",
+        "followerkojaniy",
+        "followersanitar",
+        "followertagilla",
+        "followerbirdeye",
+        "followerbigpipe",
+        "followerboar",
+        "followerzryachiy",
+        "bossboarsniper",
+        "sectantpriest",
+        "sectantwarrior"
+      ],
+      "difficulty": 0.3,
+      "perdiffcultymultipier": {
+        "easy": 0.5,
+        "normal": 0.8,
+        "hard": 1,
+        "impossible": 1.25
+      }
+    },
+    {
+      "name": "hard",
+      "brains": [
+        "bossboar",
+        "bossbully",
+        "bossgluhar",
+        "bossknight",
+        "bosskojaniy",
+        "bosskolontay",
+        "bosspartisan",
+        "bosssanitar",
+        "bosstagilla",
+        "bosszryachiy"
+      ],
+      "difficulty": 0.4,
+      "perdiffcultymultipier": {
+        "easy": 0.5,
+        "normal": 0.8,
+        "hard": 1,
+        "impossible": 1.25
+      }
+    }
+  ]
+}

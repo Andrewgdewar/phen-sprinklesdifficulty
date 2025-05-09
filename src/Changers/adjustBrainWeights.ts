@@ -3,7 +3,7 @@ import { IBotConfig } from "@spt/models/spt/config/IBotConfig";
 import { IPmcConfig } from "@spt/models/spt/config/IPmcConfig";
 import { ConfigServer } from "@spt/servers/ConfigServer";
 import { DependencyContainer } from "tsyringe";
-
+import { pmcBrainWeights, scavBrainWeights, playerScavBrainWeights } from "../../config/brainWeightings/brainWeights.json";
 
 export default (container: DependencyContainer) => {
     let botConfig: IBotConfig;
@@ -13,43 +13,43 @@ export default (container: DependencyContainer) => {
     pmcConfig = configServer.getConfig<IPmcConfig>(ConfigTypes.PMC);
     botConfig = configServer.getConfig<IBotConfig>(ConfigTypes.BOT);
 
-    // Only allow `pmcBot` brains to spawn for PMCs
+    // Adjust brain weights from config
     for (const pmcType in pmcConfig.pmcType) {
-        console.log(pmcType)
         for (const map in pmcConfig.pmcType[pmcType]) {
             const pmcBrains = pmcConfig.pmcType[pmcType][map];
             for (const brain in pmcBrains) {
-                if (brain === "pmcBot") {
-                    pmcBrains[brain] = 1;
+                if (pmcBrainWeights[brain]) {
+
+                    pmcBrains[brain] = pmcBrainWeights[brain];
                 } else {
                     pmcBrains[brain] = 0;
                 }
+                // if (map === "bigmap") console.log(`${pmcType}: ${brain}: ${pmcBrains[brain]}`);
             }
         }
     }
 
-    // Only allow `assault` brains for scavs
+    // Adjust brain weights for scavs
     for (const map in botConfig.assaultBrainType) {
         const scavBrains = botConfig.assaultBrainType[map];
+
         for (const brain in scavBrains) {
-            if (brain === "assault") {
-                scavBrains[brain] = 1;
+            if (pmcBrainWeights[brain]) {
+                scavBrains[brain] = scavBrainWeights[brain];
             } else {
                 scavBrains[brain] = 0;
             }
         }
-    }
 
-    // Only allow `pmcBot` brains for player scavs
-    for (const map in botConfig.playerScavBrainType) {
+        // Adjust brain weights for playerScavs
         const playerScavBrains = botConfig.playerScavBrainType[map];
         for (const brain in playerScavBrains) {
-            if (brain === "pmcBot") {
-                playerScavBrains[brain] = 1;
-                playerScavBrains;
+            if (pmcBrainWeights[brain]) {
+                playerScavBrains[brain] = playerScavBrainWeights[brain];
             } else {
                 playerScavBrains[brain] = 0;
             }
         }
     }
+
 }
